@@ -1,154 +1,59 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import asabenehImage from './images/asabeneh.jpg'
 
-// Fuction to show month date year
+const numbers = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 
+  21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+]
 
-const showDate = (time) => {
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
-
-  const month = months[time.getMonth()].slice(0, 3)
-  const year = time.getFullYear()
-  const date = time.getDate()
-  return ` ${month} ${date}, ${year}`
+const numChecker = (num) =>{
+  if(num === 0 || num === 2) return 1;
+  if(num === 1) return -1;
+  let flag = true;
+  for(let i = 2; i < num; i++){
+    if(num % i === 0) flag = false
+  }
+  if(flag) return 0
+  if(!flag && num % 2 === 0){
+    return 1
+  } else {
+    return -1
+  }
 }
 
-// Header Component
-const Header = ({
-  data: {
-    welcome,
-    title,
-    subtitle,
-    author: { firstName, lastName },
-    date,
-  },
-}) => {
+// Country component
+const Number = ({ number }) => {
+  let color;
+  switch(numChecker(number)) {
+    case 1: color = "green"; break;
+    case 0: color = "red"; break;
+    case -1: color = "yellow"; break;
+  }
+  let styleName = `background-color:${color}`
   return (
-    <header>
-      <div className='header-wrapper'>
-        <h1>{welcome}</h1>
-        <h2>{title}</h2>
-        <h3>{subtitle}</h3>
-        <p>
-          {firstName} {lastName}
-        </p>
-        <small>{showDate(date)}</small>
-      </div>
-    </header>
+    <div style={{backgroundColor:`${color}`,height:'100px', width:'100px'}}>
+      <h1>{number}</h1>
+    </div>
   )
 }
 
-// TechList Component
-const TechList = ({ techs }) => {
-  const techList = techs.map((tech) => <li key={tech}>{tech}</li>)
-  return techList
+// countries component
+const Numbers = ({ numbers }) => {
+  const numberList = numbers.map((number) => (
+    <Number key={number} number={number} />
+  ))
+  return <div style={{display:'flex', width:'800px', flexWrap:'wrap'}}>{numberList}</div>
 }
-
-// User Card Component
-const UserCard = ({ user: { firstName, lastName, image } }) => (
-  <div className='user-card'>
-    <img src={image} alt={firstName} />
-    <h2>
-      {firstName}
-      {lastName}
-    </h2>
+const App = () => (
+  <div  className='container'>
+    <div style={{ display: 'flex', alignItems: 'center', flexDirection:'column' }}>
+      <h1>30 Days Of React</h1>
+      <p>Number Generator</p>
+      <Numbers numbers={numbers} />
+    </div>
   </div>
 )
 
-// A button component
-
-const Button = ({ text, onClick, style }) => (
-  <button style={style} onClick={onClick}>
-    {text}
-  </button>
-)
-
-// CSS styles in JavaScript Object
-const buttonStyles = {
-  backgroundColor: '#61dbfb',
-  padding: 10,
-  border: 'none',
-  borderRadius: 5,
-  margin: 3,
-  cursor: 'pointer',
-  fontSize: 18,
-  color: 'white',
-}
-
-// Main Component
-const Main = ({ user, techs, greetPeople, handleTime }) => (
-  <main>
-    <div className='main-wrapper'>
-      <p>Prerequisite to get started react.js:</p>
-      <ul>
-        <TechList techs={techs} />
-      </ul>
-      <UserCard user={user} />
-      <Button text='Greet People' onClick={greetPeople} style={buttonStyles} />
-      <Button text='Show Time' onClick={handleTime} style={buttonStyles} />
-    </div>
-  </main>
-)
-
-// Footer Component
-const Footer = ({ copyRight }) => (
-  <footer>
-    <div className='footer-wrapper'>
-      <p>Copyright {copyRight.getFullYear()}</p>
-    </div>
-  </footer>
-)
-
-// The App, or the parent or the container component
-// Functional Component
-const App = () => {
-  const data = {
-    welcome: 'Welcome to 30 Days Of React',
-    title: 'Getting Started React',
-    subtitle: 'JavaScript Library',
-    author: {
-      firstName: 'Asabeneh',
-      lastName: 'Yetayeh',
-    },
-    date: new Date(), // date needs to be formatted to a human readable format
-  }
-  const date = new Date()
-  const techs = ['HTML', 'CSS', 'JavaScript']
-  // copying the author from data object to user variable using spread operator
-  const user = { ...data.author }
-
-  const handleTime = () => {
-    alert(showDate(new Date()))
-  }
-  const greetPeople = () => {
-    alert('Welcome to 30 Days Of React Challenge, 2020')
-  }
-
-  return (
-    <div className='app'>
-      <Header data={data} />
-      <Main
-        user={user}
-        techs={techs}
-        handleTime={handleTime}
-        greetPeople={greetPeople}
-      />
-      <Footer copyRight={date} />
-    </div>
-  )
-}
 const rootElement = document.getElementById('root')
 ReactDOM.render(<App />, rootElement)
