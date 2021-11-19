@@ -2,74 +2,47 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 class App extends Component {
-    firstName = React.createRef()
-    lastName = React.createRef()
-    country = React.createRef()
-    title = React.createRef()
-
-    handleSubmit = (e) => {
-        // stops the default behavior of form element specifically refreshing of page
-        e.preventDefault()
-
-        console.log(this.firstName.current.value)
-        console.log(this.lastName.current.value)
-        console.log(this.title.current.value)
-        console.log(this.country.current.value)
-
-        const data = {
-            firstName: this.firstName.current.value,
-            lastName: this.lastName.current.value,
-            title: this.title.current.value,
-            country: this.country.current.value,
+    constructor(props) {
+        super(props)
+        console.log('I am  the constructor and  I will be the first to run.')
+        this.state = {
+            day: 1,
+            congratulate: '',
         }
-        // the is the place we connect backend api to send the data to the database
-        console.log(data)
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log(nextProps, nextState)
+        console.log(nextState.day)
+        if (nextState.day > 31) {
+            return false
+        } else {
+            return true
+        }
+    }
+
+    doChallenge = () => {
+        this.setState({
+            day: this.state.day + 1,
+        })
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.day == 30) {
+            this.setState({
+                congratulate: 'Congratulations,Challenge has been completed',
+            })
+        }
+        console.log(prevState, prevProps)
     }
 
     render() {
         return (
             <div className='App'>
-                <h3>Add Student</h3>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        <input
-                            type='text'
-                            name='firstName'
-                            placeholder='First Name'
-                            ref={this.firstName}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type='text'
-                            name='lastName'
-                            placeholder='Last Name'
-                            ref={this.lastName}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type='text'
-                            name='country'
-                            placeholder='Country'
-                            ref={this.country}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type='text'
-                            name='title'
-                            placeholder='Title'
-                            ref={this.title}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-
-                    <button className='btn btn-success'>Submit</button>
-                </form>
+                <h1>React Component Life Cycle</h1>
+                <h1>Calling API</h1>
+                <button onClick={this.doChallenge}>Do Challenge</button>
+                <p>Challenge: Day {this.state.day}</p>
+                {this.state.congratulate && <h2>{this.state.congratulate}</h2>}
             </div>
         )
     }
