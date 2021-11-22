@@ -1,44 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import ReactDOM, { findDOMNode } from 'react-dom'
-import useFetch from './components/customHooks/useFetch'
-
-const Country = ({ country: { name, flag, population } }) => {
-    return (
-        <div className='country'>
-            <div className='country_flag'>
-                <img src={flag} alt={name} />
-            </div>
-            <h3 className='country_name'>{name.toUpperCase()}</h3>
-            <div class='country_text'>
-                <p>
-                    <span>Population: </span>
-                    {population}
-                </p>
-            </div>
-        </div>
-    )
-}
+import React, { useRef } from 'react'
+import ReactDOM from 'react-dom'
 
 const App = (props) => {
-    const url = 'https://restcountries.eu/rest/v2/all'
-    const data = useFetch(url)
-
+    const ref = useRef(null)
+    const onClick = () => {
+        ref.current.style.backgroundColor = '#61dbfb'
+        ref.current.style.padding = '50px'
+        ref.current.style.textAlign = 'center'
+    }
     return (
         <div className='App'>
-            <h1>Custom Hooks</h1>
-            <h1>Calling API</h1>
-            <div>
-                <p>There are {data.length} countries in the api</p>
-                <div className='countries-wrapper'>
-                    {data.map((country) => (
-                        <Country country={country} />
-                    ))}
-                </div>
-            </div>
+            <h1 ref={ref}>How to style HTML from the DOM tree using useRef</h1>
+            <button onClick={onClick}>Style it</button>
         </div>
     )
 }
+
+const rootElement = document.getElementById('root')
+ReactDOM.render(<App />, rootElement
 
 export default App
 
