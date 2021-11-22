@@ -1,81 +1,46 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    NavLink,
+} from 'react-router-dom'
 
-const Country = ({
-    country: { name, capital, flag, languages, population, currency },
-}) => {
-    const formatedCapital =
-        capital.length > 0 ? (
-            <>
-                <span>Capital: </span>
-                {capital}
-            </>
-        ) : (
-                ''
-            )
-    const formatLanguage = languages.length > 1 ? `Languages` : `Language`
-    console.log(languages)
-    return (
-        <div className='country'>
-            <div className='country_flag'>
-                <img src={flag} alt={name} />
-            </div>
-            <h3 className='country_name'>{name.toUpperCase()}</h3>
-            <div class='country_text'>
-                <p>{formatedCapital}</p>
-                <p>
-                    <span>{formatLanguage}: </span>
-                    {languages.map((language) => language.name).join(', ')}
-                </p>
-                <p>
-                    <span>Population: </span>
-                    {population.toLocaleString()}
-                </p>
-                <p>
-                    <span>Currency: </span>
-                    {currency}
-                </p>
-            </div>
-        </div>
-    )
-}
+import Header from './components/header/Header'
+import Main from './components/main/Main'
+
+// Home component
+const Home = <h1>Welcome Home</h1>
+// About component
+const About = <h1>About Us</h1>
+// Contact component
+const Contact = <h1>Contact us</h1>
+// Challenge component
+const Challenges = (
+    <div>
+        <h1>30 Days Of React Challenge</h1>
+    </div>
+)
+const NotFound = <h1>The page your looking for not found</h1>
+
 
 class App extends Component {
-    state = {
-        data: [],
-    }
-
-    componentDidMount() {
-        const url = 'https://restcountries.eu/rest/v2/all'
-        fetch(url)
-            .then((response) => {
-                return response.json()
-            })
-            .then((data) => {
-                console.log(data)
-                this.setState({
-                    data,
-                })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
     render() {
         return (
-            <div className='App'>
-                <h1>React Component Life Cycle</h1>
-                <h1>Calling API</h1>
-                <div>
-                    <p>There are {this.state.data.length} countries in the api</p>
-                    <div className='countries-wrapper'>
-                        {this.state.data.map((country) => (
-                            <Country country={country} />
-                        ))}
-                    </div>
+            <Router>
+                <div className='App'>
+                    <Header />
+
+                    <Routes>
+                        {/* <Route exact path='/about' element={About} />
+                        <Route exact path='/contact' element={Contact} />
+                        <Route exact path='/challenges' element={Challenges} /> */}
+                        <Route exact path='/' element={<Main />} />
+                        {/* <Route component={NotFound} /> */}
+                    </Routes>
                 </div>
-            </div>
+            </Router>
         )
     }
 }
