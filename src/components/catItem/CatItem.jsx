@@ -14,11 +14,11 @@ class CatItem extends React.Component {
         const catImage = this.props.cat.image ? this.props.cat.image.url : null
         return (
             <div>
-                <img src={catImage} alt=""/>
+                {/* <img src={catImage} alt=""/>
                 <div>{this.props.cat.name}</div>
                 <div>{this.props.cat.origin}</div>
                 <div>Temperament: {this.props.cat.temperament}</div>
-                <div>Description: {this.props.cat.description}</div>
+                <div>Description: {this.props.cat.description}</div> */}
             </div>
         )
     }
