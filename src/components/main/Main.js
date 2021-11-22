@@ -31,7 +31,6 @@ const Main = (props) => {
 
     useEffect(() => {
         getAllCats()
-        debugger
     },[])
 
     // componentDidMount(){
