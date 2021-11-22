@@ -1,27 +1,35 @@
 import React from 'react'
+import '../../assets/styles/catItem.css'
 
-class CatItem extends React.Component { 
-    constructor(props) {
-        super(props)
-        const {
-            name
 
-        } = this.props.cat
-    }
+const CatItem = (props) => { 
 
-    render () {
-        console.log(this.props.cat)
-        const catImage = this.props.cat.image ? this.props.cat.image.url : null
+
+    // constructor(props) {
+    //     super(props)
+    //     const {
+    //         name
+
+    //     } = this.props.cat
+    // }
+
+        console.log(props.cat)
+        const catImage = props.cat.image ? props.cat.image.url : null
         return (
-            <div>
-                {/* <img src={catImage} alt=""/>
-                <div>{this.props.cat.name}</div>
-                <div>{this.props.cat.origin}</div>
-                <div>Temperament: {this.props.cat.temperament}</div>
-                <div>Description: {this.props.cat.description}</div> */}
+            <div className="CatItem">
+                <div className="cat-card-image">
+                    <img src={catImage} alt=""/>
+
+                </div>
+                <div className="cat-info">
+                    <div>{props.cat.name}</div>
+                    <div>{props.cat.origin}</div>
+                    <div>Temperament: {props.cat.temperament}</div>
+                    <div>Description: {props.cat.description}</div>
+
+                </div>
             </div>
         )
-    }
 }
 
 export default CatItem
